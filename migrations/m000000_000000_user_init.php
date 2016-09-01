@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m160818_063333_pulsar_init extends Migration
+class m000000_000000_user_init extends Migration
 {
 
     public function up()
