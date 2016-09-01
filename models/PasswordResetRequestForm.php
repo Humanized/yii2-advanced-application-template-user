@@ -1,4 +1,5 @@
 <?php
+
 namespace humanized\user\models;
 
 use Yii;
@@ -10,8 +11,8 @@ use common\models\User;
  */
 class PasswordResetRequestForm extends Model
 {
-    public $email;
 
+    public $email;
 
     /**
      * @inheritdoc
@@ -37,33 +38,34 @@ class PasswordResetRequestForm extends Model
      */
     public function sendEmail()
     {
+        $userClass = \Yii::$app->user->identityClass;
         /* @var $user User */
-        $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
-            'email' => $this->email,
+        $user = $userClass::findOne([
+                    'status' => User::STATUS_ACTIVE,
+                    'email' => $this->email,
         ]);
 
         if (!$user) {
             return false;
         }
-        
+
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
         }
-        
+
         if (!$user->save()) {
             return false;
         }
 
         return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => '@vendor/humanized/yii2-user/mail/passwordResetToken-html', 'text' => '@vendor/humanized/yii2-user/mail/passwordResetToken-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Password reset for ' . Yii::$app->name)
-            ->send();
+                        ->mailer
+                        ->compose(
+                                ['html' => '@vendor/humanized/yii2-user/mail/passwordResetToken-html', 'text' => '@vendor/humanized/yii2-user/mail/passwordResetToken-text'], ['user' => $user]
+                        )
+                        ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                        ->setTo($this->email)
+                        ->setSubject('Password reset for ' . Yii::$app->name)
+                        ->send();
     }
+
 }

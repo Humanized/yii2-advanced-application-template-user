@@ -1,22 +1,22 @@
 <?php
+
 namespace humanized\user\models;
 
 use yii\base\Model;
 use yii\base\InvalidParamException;
-use common\models\User;
 
 /**
  * Password reset form
  */
 class ResetPasswordForm extends Model
 {
-    public $password;
 
+    public $password;
+    //Todo: Bugfix
     /**
      * @var \common\models\User
      */
     private $_user;
-
 
     /**
      * Creates a form model given a token.
@@ -30,7 +30,8 @@ class ResetPasswordForm extends Model
         if (empty($token) || !is_string($token)) {
             throw new InvalidParamException('Password reset token cannot be blank.');
         }
-        $this->_user = User::findByPasswordResetToken($token);
+        $userClass = \Yii::$app->user->identityClass;
+        $this->_user = $userClass::findByPasswordResetToken($token);
         if (!$this->_user) {
             throw new InvalidParamException('Wrong password reset token.');
         }
@@ -61,4 +62,5 @@ class ResetPasswordForm extends Model
 
         return $user->save(false);
     }
+
 }

@@ -4,15 +4,16 @@ namespace humanized\user\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use humanized\user\models\LoginForm;
 use humanized\user\models\SignupForm;
+use humanized\user\models\PasswordResetRequestForm;
+use humanized\user\models\ResetPasswordForm;
+
 
 /**
  * Site controller
  */
-class UserController extends Controller
+class DefaultController extends Controller
 {
 
     /**
