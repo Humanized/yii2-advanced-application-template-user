@@ -1,9 +1,10 @@
 <?php
 
 /* @var $this yii\web\View */
+//TODO: bugfix
 /* @var $user common\models\User */
-
-$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
+//TODO: Remove hardcode
+$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['/user/default/reset-password', 'token' => $user->password_reset_token]);
 ?>
 Hello <?= $user->username ?>,
 
