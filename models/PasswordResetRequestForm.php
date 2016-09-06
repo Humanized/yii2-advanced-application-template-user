@@ -43,7 +43,7 @@ class PasswordResetRequestForm extends Model
         $identityClass = \Yii::$app->user->identityClass;
         /* @var $user User */
         $user = $identityClass::findOne([
-                    'status' => User::STATUS_ACTIVE,
+                    'status' => $identityClass::STATUS_ACTIVE,
                     'email' => $this->email,
         ]);
 
@@ -51,7 +51,7 @@ class PasswordResetRequestForm extends Model
             return false;
         }
 
-        if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
+        if (!$identityClass::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
         }
 
