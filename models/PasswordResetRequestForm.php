@@ -19,8 +19,8 @@ class PasswordResetRequestForm extends Model
      */
     public function rules()
     {
-        
-        $identityClass=Yii::$app->user->identityClass;
+
+        $identityClass = Yii::$app->user->identityClass;
         return [
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
@@ -40,9 +40,9 @@ class PasswordResetRequestForm extends Model
      */
     public function sendEmail()
     {
-        $userClass = \Yii::$app->user->identityClass;
+        $identityClass = \Yii::$app->user->identityClass;
         /* @var $user User */
-        $user = $userClass::findOne([
+        $user = $identityClass::findOne([
                     'status' => User::STATUS_ACTIVE,
                     'email' => $this->email,
         ]);
