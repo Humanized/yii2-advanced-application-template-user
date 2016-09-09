@@ -43,7 +43,7 @@ class PasswordResetRequestForm extends Model
         $identityClass = \Yii::$app->user->identityClass;
         /* @var $user User */
         $user = $identityClass::findOne([
-                    'status' => $identityClass::STATUS_ACTIVE,
+                    //  'status' => $identityClass::STATUS_ACTIVE,
                     'email' => $this->email,
         ]);
 
@@ -66,7 +66,7 @@ class PasswordResetRequestForm extends Model
                         )
                         ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
                         ->setTo($this->email)
-                        ->setSubject('Password reset for ' . Yii::$app->name)
+                        ->setSubject('Password ' . ($user->status != 0 ? 're' : '') . 'set for ' . Yii::$app->name)
                         ->send();
     }
 
