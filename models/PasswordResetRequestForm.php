@@ -4,7 +4,6 @@ namespace humanized\user\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\User;
 
 /**
  * Password reset request form
@@ -27,7 +26,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => $identityClass,
-                'filter' => ['status' => $identityClass::STATUS_ACTIVE],
+        //        'filter' => ['status' => $identityClass::STATUS_ACTIVE],
                 'message' => 'There is no user with such email.'
             ],
         ];
@@ -40,6 +39,7 @@ class PasswordResetRequestForm extends Model
      */
     public function sendEmail()
     {
+        
         $identityClass = \Yii::$app->user->identityClass;
         /* @var $user User */
         $user = $identityClass::findOne([
@@ -48,14 +48,17 @@ class PasswordResetRequestForm extends Model
         ]);
 
         if (!$user) {
+
             return false;
         }
 
         if (!$identityClass::isPasswordResetTokenValid($user->password_reset_token)) {
+
             $user->generatePasswordResetToken();
         }
 
         if (!$user->save()) {
+     
             return false;
         }
 
